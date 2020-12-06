@@ -12,7 +12,6 @@
               </script>";
     }
     $query2 = mysqli_fetch_array($result);
-    echo "<script>var a = ".$query2[3]."</script>";
 ?>
 <!DOCTYPE html>
 <html lang="ko">
@@ -52,37 +51,31 @@
         </div>
     </div>
     <script>
+    
+    function Click(){
+        location.href="databaseInsert.php";
+    }
+    function Delete(){
+        location.href="databaseDelete.php";
+    }
 
-        function Click(){
-            location.href="databaseInsert.php";
-        }
-
-        function Delete(){
-            location.href="databaseDelete.php";
-        }
-
-        let myChartOne = document.getElementById('myChartOne').getContext('2d');
-
-        var barChart = new Chart(myChartOne,{
-            type : 'line',//pie, line, doughnut, polarArea 어떤 형식으로 할건지
+    var mychart = document.getElementById('myChartOne').getContext('2d');
+    var chart01 = new Chart(mychart,{
+        type : 'bar',//pie, line, doughnut, polarArea 어떤 형식으로 할건지
             data : {//타입에 들어갈 데이터 설정
                 labels:['학원','연구원', '출판사', '미디어사', '위니브'],//밑에 표시되는 것
                 datasets :[{//밑에 표시되는 것에 대한 데이터
                     label:"바울랩 매출액",//상단에 표시
                     data : [//해당 라벨에 들어갈 데이터 숫자들
-                    a,a,a,a,a
-                    ]
-                }]
-            }
-        });
-        console.log(barChart);
-        
-        if(barChart.data.datasets[0].data[0] == null){
-            for(var a=0; a<5; a++){
-                barChart.data.datasets[0].data.push(a+1);
-            }
+                       10,
+                       100,
+                       100,
+                       200,
+                       1000
+                ]
+            }]
         }
-        
+    });
     </script>
 </body>
 </html>
