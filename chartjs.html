@@ -14,6 +14,7 @@
             <div class="col-md-6">
                 <canvas id="myChartOne"></canvas>
             </div>
+            <button type="button" id="create">생성</button>
             <div class="col-md-6">
                 <canvas id="myChartOne2"></canvas>
             </div>
@@ -23,16 +24,13 @@
         </div>
     </div>
     <script>
-        var a,b,c,d,e;
-        setInterval(function(){
-            a = parseInt(Math.random()*100)+1;
-            console.log(a)
-        },1000)
-
+        
+        
+        
         let myChartOne = document.getElementById('myChartOne').getContext('2d');
 
         let barChart = new Chart(myChartOne,{
-            type : 'bar',//pie, line, doughnut, polarArea 어떤 형식으로 할건지
+            type : 'line',//pie, line, doughnut, polarArea 어떤 형식으로 할건지
             data : {//타입에 들어갈 데이터 설정
                 labels:['학원','연구원', '출판사', '미디어사', '위니브'],//밑에 표시되는 것
                 datasets :[{//밑에 표시되는 것에 대한 데이터
@@ -48,10 +46,11 @@
 
             }
         });
+        console.log(barChart.data.datasets[0].data);
         
         let myChartOne2 = document.getElementById('myChartOne2').getContext('2d');
 
-        let barChart2 = new Chart(myChartOne2,{
+        let barChart2 = {
             type : 'bar',//pie, line, doughnut, polarArea 어떤 형식으로 할건지
             data : {//타입에 들어갈 데이터 설정
                 labels:['학원','연구원', '출판사', '미디어사', '위니브'],//밑에 표시되는 것
@@ -77,27 +76,50 @@
                 }]
 
             }
-        });
-        let myChartOne3 = document.getElementById('myChartOne3').getContext('2d');
+        }
 
+        var barChar2 = new Chart(myChartOne2,barChart2);
+
+        let myChartOne3 = document.getElementById('myChartOne3').getContext('2d');
+        var a,b,c,d,e,f,g,h;
+        var _data,_data2;
+        // a = barChart.data.datasets[0].data
+        setInterval(function(){
+            a = parseInt(Math.random()*100)+1;
+            b = parseInt(Math.random()*100)+1;
+            c = parseInt(Math.random()*100)+1;
+            d = parseInt(Math.random()*100)+1;
+            e = parseInt(Math.random()*100)+1;
+            f = parseInt(Math.random()*100)+1;
+            g = parseInt(Math.random()*100)+1;
+            h = parseInt(Math.random()*100)+1;
+            _data = [a,b,c,d];
+            _data2 = [e,f,g,h];
+        },1000);
+        setInterval(function(){
         let barChart3 = new Chart(myChartOne3,{
             type: 'bar',
             data: {
-                datasets: [{
-                    label: 'Bar Dataset',
-                    data: [10, 20, 30, 40],
-                    // this dataset is drawn below
-                    order: 1
-                }, {
-                    label: 'Line Dataset',
-                    data: [10, 20, 30, 40],
-                    type: 'line',
-                    // this dataset is drawn on top
-                    order: 2
-                }],
+                datasets: [
+                    {
+                        label: 'Bar Dataset',
+                        data: _data2,
+                        // this dataset is drawn below
+                        type:'line',
+                        order: 1
+                    },
+                    {
+                        label: 'Line Dataset',
+                        data: _data,
+                        type: 'line',
+                        // this dataset is drawn on top
+                        order: 2
+                    }
+                ],
                 labels: ['January', 'February', 'March', 'April']
-            },
+                    },
             });
+        },5000);
     </script>
 </body>
 </html>

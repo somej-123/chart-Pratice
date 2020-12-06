@@ -24,6 +24,9 @@
     <title>chart</title>
 </head>
 <body>
+    <div>
+        <h1 id="abc" class="container"></h1>
+    </div>
     <div id="dataView" class="container">
         <table>
             <thead>
@@ -59,23 +62,54 @@
         location.href="databaseDelete.php";
     }
 
+     var timett = document.getElementById('abc');
+        //처음 나와야할 시간
+        var now = new Date(); // 현재 시간 가져오기
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        timett.innerText = hours+"시 "+minutes+'분 '+seconds+'초';
+    
+    var times = setInterval(() => {//후에 시간 업데이트
+        var now = new Date(); // 현재 시간 가져오기
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+        timett.innerText = hours+"시 "+minutes+'분 '+seconds+'초';
+        console.log(hours+"시 "+minutes+'분 '+seconds+'초');
+    }, 1000);
+
+    
+    
     var mychart = document.getElementById('myChartOne').getContext('2d');
     var chart01 = new Chart(mychart,{
-        type : 'bar',//pie, line, doughnut, polarArea 어떤 형식으로 할건지
+        type : 'line',//pie, line, doughnut, polarArea 어떤 형식으로 할건지
             data : {//타입에 들어갈 데이터 설정
                 labels:['학원','연구원', '출판사', '미디어사', '위니브'],//밑에 표시되는 것
-                datasets :[{//밑에 표시되는 것에 대한 데이터
-                    label:"바울랩 매출액",//상단에 표시
-                    data : [//해당 라벨에 들어갈 데이터 숫자들
-                       10,
-                       100,
-                       100,
-                       200,
-                       1000
+                datasets :[
+                    {//밑에 표시되는 것에 대한 데이터
+                        label:"bps값",//상단에 표시
+                        data : [//해당 라벨에 들어갈 데이터 숫자들
+                                    10,
+                                    100,
+                                    100,
+                                    200,
+                                    1000
+                                ]
+                    },
+                    {
+                        label:"현재 시간",//상단에 표시
+                        data : [//해당 라벨에 들어갈 데이터 숫자들
+                                    20,
+                                    200,
+                                    300,
+                                    400,
+                                    500
+                                ]
+                    }
                 ]
-            }]
-        }
-    });
+            }
+        });
     </script>
 </body>
 </html>
