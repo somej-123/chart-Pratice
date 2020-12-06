@@ -40,7 +40,7 @@
 				label: 'My First dataset',
 				backgroundColor: 'rgba(75, 192, 192, 1)',
 				borderColor: 'rgba(75, 192, 192, 1)',
-				fill: false,
+				fill: true,
 				data: [
 					Math.floor(Math.random() * 50),
 					Math.floor(Math.random() * 50),
@@ -54,7 +54,7 @@
 				label: 'My Second dataset',
 				backgroundColor: 'rgba(255, 99, 132, 1)',
 				borderColor: 'rgba(255, 99, 132, 1)',
-				fill: false,
+				fill: true,
 				data: [
 					Math.floor(Math.random() * 50),
 					Math.floor(Math.random() * 50),
@@ -87,11 +87,10 @@
 
     //데이터 변경
 	document.getElementById('reData').onclick = function(){
-		
+
 		//데이터셋 수 만큼 반복
 		var dataset = config.data.datasets;
 		for(var i=0; i<dataset.length; i++){
-			console.log(dataset);
 			//데이터 갯수 만큼 반복
 			var data = dataset[i].data;
 			for(var j=0 ; j < data.length ; j++){
@@ -103,19 +102,36 @@
     }
 
     //데이터 추가
-	document.getElementById('addData').onclick = function(){
-		
-		//라벨추가
-		config.data.labels.push('data'+config.data.labels.length)
-		
-		//데이터셋 수 만큼 반복
-		var dataset = config.data.datasets;
-		for(var i=0; i<dataset.length; i++){
-			//데이터셋의 데이터 추가
-			dataset[i].data.push(Math.floor(Math.random() * 50));
+	setInterval(function(){
+		console.log(config.data.labels);
+		if(config.data.labels.length<11){//만약 config.data.labels의 배열의 길이가 11보다 작을 경우
+			//라벨추가
+			config.data.labels.push('data'+config.data.labels.length)
+			//데이터셋 수 만큼 반복
+			var dataset = config.data.datasets;
+			for(var i=0; i<dataset.length; i++){
+				//데이터셋의 데이터 추가
+				dataset[i].data.push(Math.floor(Math.random() * 50));
+			}
+			myChart.update();	//차트 업데이트
+		}else{
+			config.data.labels.splice(1,1);//라벨 삭제 끝에 1개를 제거한다.
+			config.data.datasets.forEach(function(dataset) {
+                dataset.data.shift();//shift()은 첫번째 요소를 삭제하고 반환시켜준다.
+            });
+			config.data.labels.push('data'+config.data.labels.length)
+			//데이터셋 수 만큼 반복
+			var dataset = config.data.datasets;
+			for(var i=0; i<dataset.length; i++){
+				//데이터셋의 데이터 추가
+				dataset[i].data.push(Math.floor(Math.random() * 50));
+			}
+            
+            myChart.update();	//차트 업데이트
 		}
-		myChart.update();	//차트 업데이트
-    }
+		
+    },1000);
+
     //데이터셋 추가
 	document.getElementById('addDataSet').onclick = function(){
 		var color1 = Math.floor(Math.random() * 256);
