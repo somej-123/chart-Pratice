@@ -10,116 +10,158 @@
 </head>
 <body>
     <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <canvas id="myChartOne"></canvas>
+            <div class="chart-container" style="position: relative; height:200px; width:60vw">
+                <canvas id="myChart"></canvas>
             </div>
-            <button type="button" id="create">생성</button>
-            <div class="col-md-6">
-                <canvas id="myChartOne2"></canvas>
-            </div>
-            <div class="col-md-6">
-                <canvas id="myChartOne3"></canvas>
-            </div>
-        </div>
+            <button type="button" id="reData">데이터 변경</button>
+            <button type="button" id="addData">데이터 추가</button>
+            <button type="button" id="addDataSet">데이터셋 추가</button>
+            <button type="button" id="delData">데이터 삭제</button>
+            <button type="button" id="delDataset">데이터셋 삭제</button>
     </div>
     <script>
-        
-        
-        
-        let myChartOne = document.getElementById('myChartOne').getContext('2d');
+        $(document).ready(function(){
 
-        let barChart = new Chart(myChartOne,{
-            type : 'line',//pie, line, doughnut, polarArea 어떤 형식으로 할건지
-            data : {//타입에 들어갈 데이터 설정
-                labels:['학원','연구원', '출판사', '미디어사', '위니브'],//밑에 표시되는 것
-                datasets :[{//밑에 표시되는 것에 대한 데이터
-                    label:"바울랩 매출액",//상단에 표시
-                    data : [//해당 라벨에 들어갈 데이터 숫자들
-                        1,
-                        2,
-                        3,
-                        4,
-                        5
-                    ]
-                }]
+	var ctx = document.getElementById('myChart');
+	  
+	var config = {
+		type: 'line',
+		data: {
+			labels: [ // Date Objects
+				'data1',
+				'data2',
+				'data3',
+				'data4',
+				'data5',
+				'data6',
+				'data7'
+			],
+			datasets: [{
+				label: 'My First dataset',
+				backgroundColor: 'rgba(75, 192, 192, 1)',
+				borderColor: 'rgba(75, 192, 192, 1)',
+				fill: false,
+				data: [
+					Math.floor(Math.random() * 50),
+					Math.floor(Math.random() * 50),
+					Math.floor(Math.random() * 50),
+					Math.floor(Math.random() * 50),
+					Math.floor(Math.random() * 50),
+					Math.floor(Math.random() * 50),
+					Math.floor(Math.random() * 50)
+				],
+			}, {
+				label: 'My Second dataset',
+				backgroundColor: 'rgba(255, 99, 132, 1)',
+				borderColor: 'rgba(255, 99, 132, 1)',
+				fill: false,
+				data: [
+					Math.floor(Math.random() * 50),
+					Math.floor(Math.random() * 50),
+					Math.floor(Math.random() * 50),
+					Math.floor(Math.random() * 50),
+					Math.floor(Math.random() * 50),
+					Math.floor(Math.random() * 50),
+					Math.floor(Math.random() * 50)
+				],
+			}]
+		},
+		options: {
+			maintainAspectRatio: false,
+			title: {
+				text: 'Chart.js Time Scale'
+			},
+			scales: {
+				yAxes: [{
+					scaleLabel: {
+						display: true,
+						labelString: '차트'
+					}
+				}]
+			},
+		}
+	};
+	 
+	//차트 그리기
+    var myChart = new Chart(ctx, config);
 
-            }
-        });
-        console.log(barChart.data.datasets[0].data);
+    //데이터 변경
+	document.getElementById('reData').onclick = function(){
+		
+		//데이터셋 수 만큼 반복
+		var dataset = config.data.datasets;
+		for(var i=0; i<dataset.length; i++){
+			console.log(dataset);
+			//데이터 갯수 만큼 반복
+			var data = dataset[i].data;
+			for(var j=0 ; j < data.length ; j++){
+				data[j] = Math.floor(Math.random() * 50);
+			}
+		}
+		
+		myChart.update();	//차트 업데이트
+    }
+    //데이터 추가
+	document.getElementById('addData').onclick = function(){
+		
+		//라벨추가
+		config.data.labels.push('data'+config.data.labels.length)
+		
+		//데이터셋 수 만큼 반복
+		var dataset = config.data.datasets;
+		for(var i=0; i<dataset.length; i++){
+			//데이터셋의 데이터 추가
+			dataset[i].data.push(Math.floor(Math.random() * 50));
+		}
+		myChart.update();	//차트 업데이트
+    }
+    //데이터셋 추가
+	document.getElementById('addDataSet').onclick = function(){
+		var color1 = Math.floor(Math.random() * 256);
+		var color2 = Math.floor(Math.random() * 256);
+		var color3 = Math.floor(Math.random() * 256);
+		
+		console.log(color1 + " " + color2 + " " + color3)
+		
+		var newDataset = {
+			label: 'new Dataset'+config.data.datasets.length,
+			borderColor : 'rgba('+color1+', '+color2+', '+color3+', 1)',
+			backgroundColor : 'rgba('+color1+', '+color2+', '+color3+', 1)',
+			data: [],
+			fill: false
+		}
+		
+		// newDataset에 데이터 삽입
+		for (var i=0; i< config.data.labels.length; i++){
+			var num = Math.floor(Math.random() * 50);
+			newDataset.data.push(num);
+		}
+		
+		// chart에 newDataset 푸쉬
+		config.data.datasets.push(newDataset);
+		
+		myChart.update();	//차트 업데이트
+        }
         
-        let myChartOne2 = document.getElementById('myChartOne2').getContext('2d');
-
-        let barChart2 = {
-            type : 'bar',//pie, line, doughnut, polarArea 어떤 형식으로 할건지
-            data : {//타입에 들어갈 데이터 설정
-                labels:['학원','연구원', '출판사', '미디어사', '위니브'],//밑에 표시되는 것
-                datasets :[{//밑에 표시되는 것에 대한 데이터
-                    label:"바울랩 매출액",//상단에 표시
-                    data : [//해당 라벨에 들어갈 데이터 숫자들 배열방식
-                        200,
-                        100,
-                        250,
-                        200,
-                        1000
-                    ],
-                    backgroundColor:[ //배경 색 배열순서에 맞게 설정 가능 grba도 가능
-                        'red',
-                        'rgba(255,255,0,0.5)',
-                        '#990000',
-                        'skyblue',
-                        'dodgerblue',
-                    ],
-                    borderWidth:5, //border:3px과 동일한듯..?
-                    borderColor: '#000', //border의 색깔
-                    hoverBorderWidth : 8, // 마우스를 올렸을대 보더 넓이 값
-                }]
-
-            }
+        //데이터 삭제
+        document.getElementById('delData').onclick = function(){
+            
+            config.data.labels.splice(-1,1);//라벨 삭제
+            
+            //데이터 삭제
+            config.data.datasets.forEach(function(dataset) {
+                dataset.data.pop();
+            });
+            
+            myChart.update();	//차트 업데이트
         }
 
-        var barChar2 = new Chart(myChartOne2,barChart2);
-
-        let myChartOne3 = document.getElementById('myChartOne3').getContext('2d');
-        var a,b,c,d,e,f,g,h;
-        var _data,_data2;
-        // a = barChart.data.datasets[0].data
-        setInterval(function(){
-            a = parseInt(Math.random()*100)+1;
-            b = parseInt(Math.random()*100)+1;
-            c = parseInt(Math.random()*100)+1;
-            d = parseInt(Math.random()*100)+1;
-            e = parseInt(Math.random()*100)+1;
-            f = parseInt(Math.random()*100)+1;
-            g = parseInt(Math.random()*100)+1;
-            h = parseInt(Math.random()*100)+1;
-            _data = [a,b,c,d];
-            _data2 = [e,f,g,h];
-        },1000);
-        setInterval(function(){
-        let barChart3 = new Chart(myChartOne3,{
-            type: 'bar',
-            data: {
-                datasets: [
-                    {
-                        label: 'Bar Dataset',
-                        data: _data2,
-                        // this dataset is drawn below
-                        type:'line',
-                        order: 1
-                    },
-                    {
-                        label: 'Line Dataset',
-                        data: _data,
-                        type: 'line',
-                        // this dataset is drawn on top
-                        order: 2
-                    }
-                ],
-                labels: ['January', 'February', 'March', 'April']
-                    },
-            });
-        },5000);
+        //데이터셋 삭제
+	document.getElementById('delDataset').onclick = function(){
+		config.data.datasets.splice(-1,1);
+		myChart.update();	//차트 업데이트
+	}
+});
     </script>
 </body>
 </html>
