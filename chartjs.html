@@ -18,7 +18,8 @@
             <button type="button" id="addDataSet">데이터셋 추가</button>
             <button type="button" id="delData">데이터 삭제</button>
             <button type="button" id="delDataset">데이터셋 삭제</button>
-    </div>
+	</div>
+	<div id="TIME"></div>
     <script>
         $(document).ready(function(){
 
@@ -163,6 +164,9 @@
 		config.data.datasets.splice(-1,1);
 		myChart.update();	//차트 업데이트
 	}
+	var timestamp = 1476508607 * 1000;
+	var date = new Date(timestamp);
+	$("#TIME").text('year is ' + date.getHours()+":"+date.getMinutes());
 });
     </script>
 </body>
